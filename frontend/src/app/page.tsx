@@ -1,19 +1,32 @@
+"use client";
+
 import Image from "next/image";
 import { Inter, Rubik } from "next/font/google"
 import Link from "next/link";
+import { useState } from "react";
 
 const rubik = Rubik({
     subsets: ['latin'],
 })
 
 export default function Home() {
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+    const toggleMobileMenu = () => {
+        setIsMobileMenuOpen(!isMobileMenuOpen);
+    };
+
+    const date = new Date();
+    const currentYear = date.getFullYear();
+
   return (
    <main className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 overflow-hidden">
         {/* Navigation with glassmorphism effect */}
         <nav className={`${rubik.className} fixed top-0 w-full z-50 bg-white/80 backdrop-blur-lg border-b border-white/20 shadow-lg`}>
-            <div className="max-w-7xl mx-auto px-6 lg:px-8">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between items-center py-4">
-                    <div className="flex items-center space-x-4">
+                    {/* Logo */}
+                    <div className="flex items-center">
                         <Link href="/" className="flex items-center space-x-3 group cursor-pointer">
                             <div className="relative">
                                 <Image
@@ -24,13 +37,14 @@ export default function Home() {
                                     className="transition-transform duration-300 group-hover:scale-110"
                                 />
                             </div>
-                            <h1 className="text-3xl font-bold bg-gradient-to-r from-cyan-600 to-blue-600 bg-clip-text text-transparent">
+                            <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-cyan-600 to-blue-600 bg-clip-text text-transparent">
                                 DentaNova
                             </h1>
                         </Link>
                     </div>
                     
-                    <div className="hidden md:flex items-center space-x-8">
+                    {/* Desktop Navigation */}
+                    <div className="hidden lg:flex items-center space-x-8">
                         <ul className="flex space-x-8">
                             <li><Link href="/" className="text-gray-700 hover:text-cyan-600 transition-colors duration-300 font-medium relative group">
                                 Inicio
@@ -51,13 +65,57 @@ export default function Home() {
                         </ul>
                     </div>
                     
-                    <div className="flex items-center space-x-4">
+                    {/* Desktop Auth Buttons */}
+                    <div className="hidden md:flex items-center space-x-4">
                         <Link href="/login" className="text-gray-700 hover:text-cyan-600 transition-colors duration-300 font-medium">
                             Iniciar Sesión
                         </Link>
                         <Link href="/register" className="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700 text-white font-semibold px-6 py-2.5 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
                             Registro
                         </Link>
+                    </div>
+
+                    {/* Mobile menu button */}
+                    <div className="md:hidden">
+                        <button
+                            onClick={toggleMobileMenu}
+                            className="text-gray-700 hover:text-cyan-600 focus:outline-none focus:text-cyan-600 transition-colors duration-300"
+                            aria-label="Toggle mobile menu"
+                        >
+                            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                {isMobileMenuOpen ? (
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                ) : (
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                                )}
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                {/* Mobile Navigation Menu */}
+                <div className={`md:hidden transition-all duration-300 ease-in-out ${isMobileMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0 overflow-hidden'}`}>
+                    <div className="px-2 pt-2 pb-3 space-y-1 bg-white/90 backdrop-blur-sm rounded-lg mt-2 border border-white/20 shadow-lg">
+                        <Link href="/" className="block px-3 py-2 text-gray-700 hover:text-cyan-600 hover:bg-cyan-50 rounded-md transition-colors duration-300 font-medium">
+                            Inicio
+                        </Link>
+                        <Link href="/about" className="block px-3 py-2 text-gray-700 hover:text-cyan-600 hover:bg-cyan-50 rounded-md transition-colors duration-300 font-medium">
+                            Sobre Nosotros
+                        </Link>
+                        <Link href="/services" className="block px-3 py-2 text-gray-700 hover:text-cyan-600 hover:bg-cyan-50 rounded-md transition-colors duration-300 font-medium">
+                            Servicios
+                        </Link>
+                        <Link href="/how-it-works" className="block px-3 py-2 text-gray-700 hover:text-cyan-600 hover:bg-cyan-50 rounded-md transition-colors duration-300 font-medium">
+                            ¿Cómo funciona?
+                        </Link>
+                        <div className="border-t border-gray-200 pt-3 mt-3">
+                            <Link href="/login" className="block px-3 py-2 text-gray-700 hover:text-cyan-600 hover:bg-cyan-50 rounded-md transition-colors duration-300 font-medium">
+                                Iniciar Sesión
+                            </Link>
+                            <Link href="/register" className="block mx-3 mt-2 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700 text-white font-semibold px-4 py-2 rounded-full transition-all duration-300 text-center">
+                                Registro
+                            </Link>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -270,7 +328,7 @@ export default function Home() {
                 
                 <div className="border-t border-gray-700 mt-12 pt-8 text-center">
                     <p className="text-gray-400">
-                        © 2024 DentaNova. Todos los derechos reservados. Desarrollado con ❤️ por Neurovix
+                        © {currentYear} DentaNova. Todos los derechos reservados. Desarrollado por Neurovix
                     </p>
                 </div>
             </div>
